@@ -122,6 +122,33 @@ section>.etiquette{display:block;margin:0 4px 10px}
 .ref .d{font-size:13.5px;line-height:1.5;color:var(--texte-2);margin:0}
 .ref a{color:var(--pan-3);font-size:13px}
 .compte{font-size:13px;color:var(--texte-3);margin:0 0 8px}
+
+/* mode présentation : 1 coupe par écran, vertical, gros texte */
+.btn-pres{margin-top:18px;border:0;cursor:pointer;color:#fff;font:600 15px var(--police);padding:12px 20px;border-radius:var(--r-pilule);background:linear-gradient(135deg,var(--bleu-chat),var(--bleu-renard));box-shadow:0 6px 16px -6px rgba(36,54,184,.6)}
+#pres{display:none}
+body.pres{padding:0;overflow:hidden;background:#fff}
+body.pres main{display:none}
+body.pres #pres{display:block;position:fixed;inset:0;overflow-y:auto;scroll-snap-type:y mandatory;z-index:50;background:#fff;-webkit-overflow-scrolling:touch}
+.sl{height:100vh;height:100svh;scroll-snap-align:start;scroll-snap-stop:always;display:flex;flex-direction:column;justify-content:center;padding:6vh 7vw;position:relative;overflow:hidden;background:radial-gradient(90vw 50vh at 100% 0,rgba(40,95,255,.16),transparent 70%),radial-gradient(80vw 40vh at 0 100%,rgba(36,54,184,.10),transparent 70%),#fff}
+.sl .n{font:600 3.4vw var(--police-mono);letter-spacing:.08em;color:var(--pan-3)}
+.sl h2{font-size:11.5vw;line-height:1;letter-spacing:-.04em;margin:1.4vh 0 0}
+.sl .sil{height:22vh;margin:1.5vh 0;display:flex;justify-content:center}
+.sl .sil svg{height:100%;width:auto;fill:url(#g);display:block}
+.sl .ph{font-size:4.5vw;line-height:1.3;color:var(--texte-2);margin:0 0 2.5vh}
+.sl .ph b{color:var(--texte)}
+.sl .mo{display:flex;align-items:center;gap:4vw;margin-top:1.6vh}
+.sl .mo img{width:17vw;height:17vw;object-fit:cover;border-radius:3vw;flex:none;background:#eef1f8}
+.sl .mo .nm{font:700 5.4vw var(--police);letter-spacing:-.02em;line-height:1.1}
+.sl .mo .nm i{font:600 3vw var(--police);font-style:normal;color:#fff;background:var(--bleu-renard);border-radius:99px;padding:.5vw 2vw;margin-left:2vw;vertical-align:middle}
+.sl .mo .nm i.g{background:#9aa3b8}
+.sl .mo .pz{font:600 4.6vw var(--police-mono);color:var(--pan-3);margin-top:.4vh}
+.sl .grand{font-size:15vw}
+.sl .sous{font-size:5vw;line-height:1.3;color:var(--texte-2);margin-top:3vh}
+.sl .sous b{color:var(--texte)}
+.sl .pts{position:absolute;bottom:3vh;left:0;right:0;text-align:center;font:500 3.2vw var(--police);color:#9aa3b8}
+.quit{position:fixed;top:2vh;right:3vw;z-index:60;border:0;background:rgba(255,255,255,.8);font:600 3.4vw var(--police);padding:1.2vw 3vw;border-radius:99px;color:#9aa3b8;display:none}
+body.pres .quit{display:block}
+body.cap .quit,body.cap .pts{display:none}
 </style>
 <body class="aura">
 <div class="auras" aria-hidden="true"><i></i><i></i><i></i></div>
@@ -131,7 +158,7 @@ section>.etiquette{display:block;margin:0 4px 10px}
     <span class="orbe"></span>
     <span class="etiquette">Carhartt WIP · automne-hiver 2026</span>
     <h1>Les nouvelles coupes : laquelle pour toi ?</h1>
-    <p>J'ai épluché tout le rayon pantalons du site : <b>57 modèles, dont 15 en nouveauté</b> (38 coloris nouveaux), de 79 à 179 € selon le lavage. Ils se rangent en <b>6 coupes</b>. Voilà comment choisir sans te tromper.</p>
+    <p>J'ai épluché tout le rayon pantalons du site : <b>57 modèles, dont 15 en nouveauté</b> (38 coloris nouveaux), de 79 à 179 € selon le lavage. Ils se rangent en <b>6 coupes</b>. Voilà comment choisir sans te tromper.</p><br><button class="btn-pres" onclick="pres(1)">Mode présentation</button>
   </header>
 
   <section>
@@ -195,6 +222,8 @@ section>.etiquette{display:block;margin:0 4px 10px}
 
   <p class="pied">Source : <a href="https://www.carhartt-wip.com/fr-fr/c/homme-pantalons">carhartt-wip.com</a>, rayon pantalons homme, relevé le 11/11/2026 (prix France, coupes et descriptions officielles). Mesures : guide des tailles officiel de chaque fiche. Stock : coloris affiché, au moment du relevé. Les recos par profil sont mon avis, pas celui de la marque. Photos : Carhartt WIP.</p>
 </main>
+<div id="pres"></div><button class="quit" onclick="pres(0)">× quitter</button>
+
 <script>
 const IMG=k=>`https://cdn.media.amplience.net/i/carhartt_wip/${k}-ST-02?$ST$&w=500&fmt=auto`;
 const M={
@@ -270,6 +299,15 @@ function filtre(i){[...fr.children].forEach((e,j)=>e.classList.toggle("on",j===i
 </dl><p style="margin:10px 0 0"><a href="${x.url}">Voir sur le site</a></p></div></details>`).join("")}
 F.forEach((f,i)=>{const b=document.createElement("button");b.className="puce";b.textContent=f;b.onclick=()=>filtre(i);fr.appendChild(b)});
 filtre(1);
+
+// ---- mode présentation ----
+function slides(){const out=[];
+ out.push(`<div class="sl"><span class="n">CARHARTT WIP · AUTOMNE-HIVER 2026</span><h2 class="grand">Quelle coupe pour toi ?</h2><p class="sous"><b>6 coupes</b>, de la plus près du corps à la plus large. De <b>79 à 179 €</b> selon le lavage.</p><div class="pts">glisse vers le haut ↑</div></div>`);
+ C.forEach((c,i)=>out.push(`<div class="sl"><span class="n">COUPE ${i+1} / 6</span><h2>${c.k}</h2><div class="sil"><svg viewBox="0 0 120 224"><path d="${pant(c.s)}"/></svg></div><p class="ph">${c.ph}</p>${c.m.map(id=>{const m=M[id];return `<div class="mo">${m.i?`<img src="${IMG(m.i)}" alt="${m.n}">`:""}<div><div class="nm">${m.n}<i class="${m.new?"":"g"}">${m.new?"nouveau":m.ref?"réf. + coloris":"réf."}</i></div><div class="pz">${m.pr||m.p+" €"}</div></div></div>`}).join("")}<div class="pts">${i+1} / 6</div></div>`));
+ return out.join("")}
+function pres(on,n){document.body.classList.toggle("pres",!!on);const p=document.getElementById("pres");
+ if(on){if(!p.innerHTML)p.innerHTML=slides();p.scrollTop=(n||0)*p.clientHeight}else scrollTo(0,0)}
+(function(){const q=new URLSearchParams(location.search);if(q.has("pres")){if(q.has("cap"))document.body.classList.add("cap");pres(1,+q.get("pres")||0)}})();
 </script>
 </body>
 </html>
