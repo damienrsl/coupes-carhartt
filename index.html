@@ -149,6 +149,16 @@ body.pres #pres{display:block;position:fixed;inset:0;overflow-y:auto;scroll-snap
 .quit{position:fixed;top:2vh;right:3vw;z-index:60;border:0;background:rgba(255,255,255,.8);font:600 3.4vw var(--police);padding:1.2vw 3vw;border-radius:99px;color:#9aa3b8;display:none}
 body.pres .quit{display:block}
 body.cap .quit,body.cap .pts{display:none}
+
+.foc img{width:100%;aspect-ratio:1;object-fit:cover;border-radius:var(--r-m);background:#f3f4f8;display:block}
+.foc h2{margin-top:14px}
+.foc .acc{font-size:16px;color:var(--texte);margin:6px 0 0;line-height:1.4}
+.foc dl{display:grid;grid-template-columns:96px 1fr;gap:7px 10px;margin:14px 0 0;font-size:14px}
+.foc dt{color:var(--texte-3);font:600 10.5px var(--police-mono);letter-spacing:.06em;text-transform:uppercase;padding-top:3px}
+.foc dd{margin:0;color:var(--texte-2);line-height:1.4}
+.foc a{color:var(--pan-3);font-size:14px}
+#fpuces{flex-wrap:nowrap;overflow-x:auto;padding-bottom:4px;scrollbar-width:none}
+#fpuces .puce{flex:none}
 </style>
 <body class="aura">
 <div class="auras" aria-hidden="true"><i></i><i></i><i></i></div>
@@ -160,6 +170,14 @@ body.cap .quit,body.cap .pts{display:none}
     <h1>Les nouvelles coupes : laquelle pour toi ?</h1>
     <p>J'ai épluché tout le rayon pantalons du site : <b>57 modèles, dont 15 en nouveauté</b> (38 coloris nouveaux), de 79 à 179 € selon le lavage. Ils se rangent en <b>6 coupes</b>. Voilà comment choisir sans te tromper.</p><br><button class="btn-pres" onclick="pres(1)">Mode présentation</button>
   </header>
+  <section>
+    <span class="etiquette">13 Carhartt que personne ne regarde</span>
+    <div class="verre carte">
+      <div class="puces" id="fpuces"></div>
+      <div class="foc" id="focus"></div>
+    </div>
+  </section>
+
 
   <section>
     <span class="etiquette">Les 6 coupes, de la plus près du corps à la plus large</span>
@@ -308,6 +326,13 @@ function slides(){const out=[];
 function pres(on,n){document.body.classList.toggle("pres",!!on);const p=document.getElementById("pres");
  if(on){if(!p.innerHTML)p.innerHTML=slides();p.scrollTop=(n||0)*p.clientHeight}else scrollTo(0,0)}
 (function(){const q=new URLSearchParams(location.search);if(q.has("pres")){if(q.has("cap"))document.body.classList.add("cap");pres(1,+q.get("pres")||0)}})();
+
+const FOC=[["Travon", "109 à 119 €", "Relaxed", "I036802_K02_XX", "travon-pant-black-wax-990", "Le pantalon de pluie déguisé en pantalon de ville.", "Nylon léger doublé de mesh, déperlant. Taille élastique, bas de jambe zippés, poches zippées.", "37 cm (M)", "Nylon, 3,5 oz"], ["Floyde", "119 €", "Relaxed", "I033585_3T6_GD", "floyde-pant-raven-garment-dyed-1288", "Le relaxed qui bouge avec toi.", "Sergé stretch (2 % élasthanne) teint en pièce : la couleur varie un peu d'un pantalon à l'autre. 5 coloris.", "37 cm (M)", "Sergé stretch, 9,7 oz"], ["Holden", "99 €", "Relaxed straight", "I035670_3TE_01", "holden-pant-shungite-rigid-1126", "Un pantalon à pinces, version Carhartt.", "Plis avant pour l'aisance aux hanches, sergé de coton épais, triples coutures, boucle porte-marteau.", "37 cm (M)", "Sergé coton, 11,2 oz"], ["Oakland", "109 à 139 €", "Loose straight", "I037533_01_4Q", "oakland-pant-blue-worn-used-wash-41", "Le Double Knee en jean, ample.", "Denim épais, genoux doublés, poches à outils, taille basse. Une alternative à l'OG Double Knee.", "37 cm (M)", "Denim Camano, 12 oz"], ["Nike Windrunner Drewe", "149 €", "Relaxed", "I037574_3TG_06", "carhartt-wip-nike-windrunner-x-drewe-pant-wip-h-brown-stone-washed-48", "La collab Nike, en toile workwear.", "Toile Dearborn, coupe relaxed. Affiché « Prochainement » sur le site au 11/11 : pas encore achetable.", "37 cm (M)", "Toile Dearborn, 11,35 oz"], ["Module", "89 €", "Relaxed tapered", "I035653_8Y_01", "module-pant-leather-rigid-243", "Le moins cher du lot, et pas le plus fin.", "Sergé de coton épais (même toile que le Holden), taille basse, se resserre en bas. Poches latérales et arrière.", "36 cm (32)", "Sergé coton, 11,2 oz"], ["Harold", "99 €", "Regular straight", "I036502_1C_01", "harold-pant-dark-navy-rigid-167", "Le chino droit, avec des rivets.", "Sergé polyester-coton, rivets métal et bartacks. Jambe longue : 78 cm d'entrejambe en 32.", "36 cm (32)", "Poly-coton, 8,8 oz"], ["OG Master", "99 €", "Relaxed straight", "I037064_1C_02", "og-master-pant-dark-navy-rinsed-176", "Le chino Carhartt, en plus ample.", "Version plus large du Master, taille basse, jambe droite. 4 coloris.", "34,5 cm (32)", "Poly-coton, 8,8 oz"], ["Craft", "89 €", "Relaxed straight", "I035652_8Y_02", "craft-pant-leather-rinsed-295", "Le chino droit le moins cher.", "Même tissu que le Master, taille basse, deux poches latérales, deux arrière. Coloris relevé épuisé en 32.", "34 cm (32)", "Poly-coton, 8,8 oz"], ["Master", "99 €", "Relaxed tapered", "I034233_47_02", "master-pant-tobacco-rinsed-1251", "Le chino de base, avec le choix de la longueur.", "Ample au-dessus du genou, resserré dessous. 6 coloris, plusieurs longueurs de jambe au choix.", "34 cm (32/32)", "Poly-coton, 8,8 oz"], ["Newel", "99 à 129 €", "Relaxed tapered", "I027232_3TG_02", "newel-pant-wip-h-brown-rinsed-1483", "Le 5 poches en velours côtelé.", "Velours Coventry épais, 8 côtes. Coupe fuselée décontractée. 5 coloris.", "34 cm (32)", "Velours, 9,7 oz"], ["Atoka", "149 €", "Regular tapered", "I037050_89_XX", "atoka-pant-black-180", "Le pantalon de travail en laine.", "80 % laine brossée, poches à outils, boucle porte-marteau, triples coutures. Pour l'hiver.", "34 cm (M)", "Laine mélangée, 9,9 oz"], ["Marlow", "dès 79 €", "Relaxed straight", "I023029_89_4L", "marlow-pant-black-dark-used-wash-4566", "Le jean le plus près du corps de la gamme relaxed.", "Denim Edgewood 12 oz, jambe un peu fuselée sous le genou. 79 € en Blue Rinsed, le prix le plus bas du rayon.", "33 cm (32/32)", "Denim Edgewood, 12 oz"]];
+const fp=document.getElementById("fpuces"),fo=document.getElementById("focus");
+function foc(i){[...fp.children].forEach((e,j)=>e.classList.toggle("on",j===i));const [n,p,c,im,sl,acc,t,cu,ti]=FOC[i];
+ fo.innerHTML=`<img src="${IMG(im)}" alt="${n}"><h2>${n}</h2><p class="acc">${acc}</p><p>${t}</p><dl><dt>Prix</dt><dd>${p}</dd><dt>Coupe</dt><dd>${c}</dd><dt>Tissu</dt><dd>${ti}</dd><dt>Cuisse</dt><dd>${cu}</dd></dl><p style="margin:12px 0 0"><a href="https://www.carhartt-wip.com/fr-fr/p/${sl}">Voir sur le site</a></p>`}
+FOC.forEach((f,i)=>{const b=document.createElement("button");b.className="puce";b.textContent=f[0];b.onclick=()=>foc(i);fp.appendChild(b)});
+foc(0);
 </script>
 </body>
 </html>
